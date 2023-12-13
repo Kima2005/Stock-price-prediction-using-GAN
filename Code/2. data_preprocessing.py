@@ -13,7 +13,7 @@ from pickle import dump
 
 # %% --------------------------------------- Load Data  -----------------------------------------------------------------
 dataset = pd.read_csv('Finaldata_with_Fourier.csv', parse_dates=['Date'])
-news = pd.read_csv("News.csv", parse_dates=["Date"])
+# news = pd.read_csv("News.csv", parse_dates=["Date"])
 
 # %% --------------------------------------- Data Preprocessing  -----------------------------------------------------------------
 
@@ -21,7 +21,7 @@ news = pd.read_csv("News.csv", parse_dates=["Date"])
 dataset.replace(0, np.nan, inplace=True)
 dataset.to_csv("dataset.csv", index=False)
 # Add News data
-dataset["News"] = news["Score"]
+# dataset["News"] = news["Score"]
 
 # Check NA and fill them
 dataset.isnull().sum()
@@ -59,9 +59,9 @@ dump(y_scaler, open('y_scaler.pkl', 'wb'))
 '''Set the data input steps and output steps, 
     we use 30 days data to predict 1 day price here, 
     reshape it to (None, input_step, number of features) used for LSTM input'''
-n_steps_in = 3
+n_steps_in = 30
 n_features = X_value.shape[1]
-n_steps_out = 1
+n_steps_out = 3
 
 # Get X/y dataset
 def get_X_y(X_data, y_data):
@@ -74,7 +74,7 @@ def get_X_y(X_data, y_data):
         X_value = X_data[i: i + n_steps_in][:, :]
         y_value = y_data[i + n_steps_in: i + (n_steps_in + n_steps_out)][:, 0]
         yc_value = y_data[i: i + n_steps_in][:, :]
-        if len(X_value) == 3 and len(y_value) == 1:
+        if len(X_value) == 30 and len(y_value) == 3:
             X.append(X_value)
             y.append(y_value)
             yc.append(yc_value)
