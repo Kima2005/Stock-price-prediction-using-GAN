@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 import numpy as np
 from pickle import load
-from tensorflow.keras.losses import mean_squared_error
+from tensorflow.keras.losses import MeanSquaredError
 from tensorflow.keras.layers import GRU, Dense, Flatten, Conv1D, BatchNormalization, LeakyReLU, ELU, ReLU
 from tensorflow.keras import Sequential, regularizers
 from tensorflow.python.client import device_lib
@@ -42,7 +42,7 @@ def Generator(input_dim, output_dim, feature_size) -> tf.keras.models.Model:
 # Define the discriminator
 def Discriminator() -> tf.keras.models.Model:
     model = tf.keras.Sequential()
-    model.add(Conv1D(32, input_shape=(4, 1), kernel_size=3, strides=2, padding="same", activation=LeakyReLU(alpha=0.01)))
+    model.add(Conv1D(32, input_shape=(17, 1), kernel_size=3, strides=2, padding="same", activation=LeakyReLU(alpha=0.01)))
     model.add(Conv1D(64, kernel_size=3, strides=2, padding="same", activation=LeakyReLU(alpha=0.01)))
     model.add(Conv1D(128, kernel_size=3, strides=2, padding="same", activation=LeakyReLU(alpha=0.01)))
     model.add(Flatten())
@@ -76,7 +76,7 @@ class GAN():
         and added to the discriminator loss.
         """
         # get the interpolated data
-        alpha = tf.random.normal([batch_size, 4, 1], 0.0, 1.0)
+        alpha = tf.random.normal([batch_size, 17, 1], 0.0, 1.0)
         diff = fake_output - tf.cast(real_output, tf.float32)
         interpolated = tf.cast(real_output, tf.float32) + alpha * diff
 
@@ -166,7 +166,7 @@ class GAN():
             Real_price.append(real_price)
 
             # Save the model every 15 epochs
-            if (epoch + 1) % 15 == 0:
+            if (epoch + 1) % 30 == 0:
                 tf.keras.models.save_model(generator, 'gen_GRU_model_%d.h5' % epoch)
                 self.checkpoint.save(file_prefix=self.checkpoint_prefix)
                 print('epoch', epoch+1, 'd_loss', loss['d_loss'].numpy(), 'g_loss', loss['g_loss'].numpy())
