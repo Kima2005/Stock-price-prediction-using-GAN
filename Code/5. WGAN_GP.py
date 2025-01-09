@@ -42,7 +42,7 @@ def Generator(input_dim, output_dim, feature_size) -> tf.keras.models.Model:
 # Define the discriminator
 def Discriminator() -> tf.keras.models.Model:
     model = tf.keras.Sequential()
-    model.add(Conv1D(32, input_shape=(4, 1), kernel_size=3, strides=2, padding="same", activation=LeakyReLU(alpha=0.01)))
+    model.add(Conv1D(32, input_shape=(17, 1), kernel_size=3, strides=2, padding="same", activation=LeakyReLU(alpha=0.01)))
     model.add(Conv1D(64, kernel_size=3, strides=2, padding="same", activation=LeakyReLU(alpha=0.01)))
     model.add(Conv1D(128, kernel_size=3, strides=2, padding="same", activation=LeakyReLU(alpha=0.01)))
     model.add(Flatten())
