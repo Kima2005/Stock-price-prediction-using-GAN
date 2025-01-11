@@ -76,7 +76,7 @@ class GAN():
         and added to the discriminator loss.
         """
         # get the interpolated data
-        alpha = tf.random.normal([batch_size, 4, 1], 0.0, 1.0)
+        alpha = tf.random.normal([batch_size, 17, 1], 0.0, 1.0)
         diff = fake_output - tf.cast(real_output, tf.float32)
         interpolated = tf.cast(real_output, tf.float32) + alpha * diff
 
