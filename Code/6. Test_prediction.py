@@ -67,6 +67,10 @@ def get_test_plot(X_test, y_test):
     RMSE = np.sqrt(mean_squared_error(predicted, real))
     print('-- RMSE -- ', RMSE)
 
+    # Calculate MAPE
+    MAPE = np.mean(np.abs((real - predicted) / real)) * 100
+    print('-- MAPE -- ', MAPE)
+
     return predict_result, RMSE
 
 
